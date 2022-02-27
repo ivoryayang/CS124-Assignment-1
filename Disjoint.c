@@ -1,16 +1,38 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <string.h>
+#include "disjoint.h"
 
+node *makeSet(int x)
+{
+    node *n = malloc(sizeof(node));
+    n->value = x;
+    n->parent = n;
+    n->rank = 0;
+    return n;
+}
 
-int ds_find(ds_forest *, int);
+node *find(node *n)
+{
+    if (n != n->parent)
+    {
+        n->parent = find(n->parent);
+    }
+    return n->parent;
+}
 
-ds_forest *ds_make_forest(int size) {
-    ds_forest *f = (ds_forest *) malloc(sizeof(ds_forest));
-    f->p = (int *) malloc(sizeof(int) * size);
-    f->rank = (int *) malloc(sizeof(int) * size);
-    memset(f->p, -1, sizeof(int) * size);
-    memset(f->rank, -1, sizeof(int) * size);
-    f->size = size;
-    return f;
+void link(node *x, node *y)
+{
+  if (x->rank > y->rank)
+    {
+      link(y,x);
+      return;
+    }
+  else if (x->rank == y->rank)
+    y->rank++;
+  x->parent = y;
+}
+
+void join(node *x, node *y)
+{
+  link(find(x),find(y));
 }
