@@ -29,7 +29,7 @@ float distance(int d, float p1[d], float p2[d]) {
     return distance;
 }
 
-// Generates a graph with n vertices in adjacency matrix form
+// Generate a graph with n vertices in adjacency matrix form
 int graph(int n, int d, int *cap, edge ***graph){
     // Seed once in microseconds 
     struct timeval t1;
