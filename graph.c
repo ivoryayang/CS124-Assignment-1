@@ -10,9 +10,8 @@
 #include <sys/time.h>
 #include "graph.h"
 
-int generategraph(int n, int d, int *cap, edge ***graph)
 // Generate a graph with n vertices in adjacency matrix form
-int generategraph(int n, int d, int *cap, edge ***graph)
+int generate_graph(int n, int d, int *cap, edge ***graph)
 {
     // Seed once in microseconds 
     struct timeval t1;
@@ -125,14 +124,17 @@ int generate_graph234d(int n, float th, int *cap, edge ***graph) {
 								
 
 // Generate a random number from [0, 1]
-float randFloat() {
-return (float) rand() / (float) RAND_MAX;
+float randFloat()
+{
+	return (float) rand() / (float) RAND_MAX;
 }
 	
 // Calculate euclidean distance between two points p1 and p2
-float distance(int d, float p1[d], float p2[d]) {
+float distance(int d, float p1[d], float p2[d])
+{
     float sum = 0;
-    for (int i = 0; i < d; i++) {
+    for (int i = 0; i < d; i++)
+    {
         float diff = p2[i] - p1[i];
         sum += pow(diff, 2.00);
     }
