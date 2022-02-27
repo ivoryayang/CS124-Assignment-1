@@ -10,34 +10,31 @@
 #include <sys/time.h>
 #include "graph.h"
 
-// Prototypes
-static graph *generate_graph0d(int n, float th, int *cap, edge ***graph)
-static graph *generate_graph234d(int n, int d, float th, int *cap, edge ***graph)
-	
+int generategraph(int n, int d, int *cap, edge ***graph)
 // Generate a graph with n vertices in adjacency matrix form
-int graph(int n, int d, int *cap, edge ***graph){
+int generategraph(int n, int d, int *cap, edge ***graph)
+{
     // Seed once in microseconds 
     struct timeval t1;
     gettimeofday(&t1, NULL);
     srand(t1.tv_usec * t1.tv_sec);
 }
 	  
-	  
 // Obtain threshold for edge throwaway
     float th = threshold(n, d);
-
     assert (th != -1);
 
 	// Generate graph
 	if (d == 0) {
-		return generate0d(n, th, cap, graph);
+		return generate_graph0d(n, th, cap, graph);
 	} else {
-		return generate234d(n, d, th, cap, graph);
+		return generate_graph234d(n, d, th, cap, graph);
 	}
 }
 
 // Generate 0d graph
 int generate_graph0d(int n, float th, int *cap, edge ***graph)
+{
 	int numEdges = 0
 	// Find all edges
 	for (int i = 1; i < n; i++)
@@ -49,7 +46,7 @@ int generate_graph0d(int n, float th, int *cap, edge ***graph)
 	
 
 
-int generate0d(int n, float th, int *cap, edge ***graph) {
+int generate_graph0d(int n, float th, int *cap, edge ***graph) {
     int numEdges = 0;
     // Find all edges
     for (int i = 1; i < n; i++) {
