@@ -5,4 +5,4 @@ typedef struct
 	float length;
 } edge;
 
-int generate_graph(int n, int d, int *cap, edge ***graph);
+int generategraph(int n, int d, int *cap, edge ***graph);
