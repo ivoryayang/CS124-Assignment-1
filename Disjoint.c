@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
-#include "disjoint.h"
+#include "Disjoint.h"
 
 
 void set_dsu(int* parent,int* rank, int n) {
