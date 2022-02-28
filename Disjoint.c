@@ -2,37 +2,41 @@
 #include <stdlib.h>
 #include "disjoint.h"
 
-node *makeSet(int x)
-{
-    node *n = malloc(sizeof(node));
-    n->value = x;
-    n->parent = n;
-    n->rank = 0;
-    return n;
-}
 
-node *find(node *n)
-{
-    if (n != n->parent)
-    {
-        n->parent = find(n->parent);
+void set_dsu(int* parent,int* rank, int n) {
+
+    int i;
+    for ( i = 0; i < n; i++){
+        parent[i] = i;
+        rank[i] = 1;
     }
-    return n->parent;
 }
 
-void link(node *x, node *y)
-{
-  if (x->rank > y->rank)
-    {
-      link(y,x);
-      return;
+int find(int a, int* parent) {
+    if (parent[a] == a) return a;
+    else return find(parent[a],parent);
+}
+
+void merge_set(int a, int b,int *parent,int* rank) {
+    int u = find(a,parent), v = find(b,parent);
+    if (u != v) {
+        if (rank[u] > rank[v]) {
+            parent[v] = u;
+            rank[u] = (rank[u] > 1 + rank[v]) ? rank[u] : 1 + rank[v];
+        }
+        else {
+            parent[u] = v;
+            rank[v] = (rank[v] > 1 + rank[u]) ? rank[v] : 1 + rank[u];
+        }
     }
-  else if (x->rank == y->rank)
-    y->rank++;
-  x->parent = y;
+    return;
 }
-
-void join(node *x, node *y)
-{
-  link(find(x),find(y));
+int set_count(int* parent,int n) {
+    int cnt{};
+    for (int i = 0; i < n; i++)
+    {
+        if (i == parent[i])
+            cnt++;
+    }
+    return cnt;
 }
