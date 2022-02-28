@@ -46,13 +46,7 @@ int main() {
                 else
                     j--;
             }
-            result[i] = mst_total / (float)test_size;
-
-            
-            fs << "# of Nodes: " << samples[i] << " , Dimension: " << (x == 1 ? 0 : x) << " ,Average MST Weight : " << result[i] << endl;            
-        }    
-        fs << endl<<"----------------------------------------"<<endl<<endl;
-        
+            result[i] = mst_total / (float)test_size;   
     }
     fs.close();
     system("pause");
