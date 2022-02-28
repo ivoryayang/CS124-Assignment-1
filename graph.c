@@ -7,130 +7,138 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
+#include<ctime>
+//#include <sys/time.h>
 #include "graph.h"
-
-// Generate a graph with n vertices in adjacency matrix form
-int generate_graph(int n, int d, int *cap, edge ***graph)
-{
-    // Seed once in microseconds 
-    struct timeval t1;
-    gettimeofday(&t1, NULL);
-    srand(t1.tv_usec * t1.tv_sec);
-}
-	  
-// Obtain threshold for edge throwaway
-    float th = threshold(n, d);
-    assert (th != -1);
-
-	// Generate graph
-	if (d == 0) {
-		return generate_graph0d(n, th, cap, graph);
-	} else {
-		return generate_graph234d(n, d, th, cap, graph);
-	}
-}
-
-// Generate 0d graph
-int generate_graph0d(int n, float th, int *cap, edge ***graph)
-{
-	int numEdges = 0
-	// Find all edges
-	for (int i = 1; i < n; i++)
-	{
-		for (int j = 0, i < i; j++)
-		{
-			float val = randFloat();
-			if (
-	
-
-
-int generate_graph0d(int n, float th, int *cap, edge ***graph) {
-    int numEdges = 0;
-    // Find all edges
-    for (int i = 1; i < n; i++) {
-        for (int j = 0; j < i; j++) {
-            // If value is greater than threshold, ignore it
-            float val = randFloat();
-            if (val > th) {
-                continue;
-            }
-
-            // Creating edge
-            edge *e = malloc(sizeof(edge));
-            e->p1 = i;
-            e->p2 = j;
-            e->length = val;
-            (*graph)[numEdges] = e;
-            numEdges++;
-
-            // Realloc for more space if cap reached
-            if (numEdges >= *cap) {
-                *graph = (edge**) realloc((void*) *graph, (*cap * 2) * sizeof(edge*));
-                *cap *= 2;
-            }
-        }
-    }
-    return numEdges;
-}
-	
-// Generate 234d graph
-int generate_graph234d(int n, float th, int *cap, edge ***graph) {
-	// Keep track of vertices. Each row is single vertex with dimensionality d
-	float vertices[n][d];
-
-	// Initialize vertices
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < d; j++) {
-			vertices[i][j] = randFloat();
-		}
-	}
-
-    int numEdges = 0;
-
-    // Find all edges
-    for (int i = 1; i < n; i++) {
-        for (int j = 0; j < i; j++) {
-            // If individual axes difference greater than threshold, ignore
-            for (int dim = 0; dim < d; dim++) {
-                if (vertices[i][dim] - vertices[j][dim] > th) {
-                    continue;
-                }
-            }
-
-            // If distance between points greather than threshold, ignore
-            float dist = distance(d, vertices[i], vertices[j]);
-            if (dist > th) {
-                continue;
-            }
-
-            // Create edge
-            edge *e = malloc(sizeof(edge));
-            e->p1 = i;
-            e->p2 = j;
-            e->length = dist;
-            (*graph)[numEdges] = e;
-            numEdges++;
-
-            // If cap reached, realloc
-            if (numEdges >= *cap) {
-                *graph = (edge**) realloc((void*) *graph, (*cap * 2) * sizeof(edge*));
-                *cap *= 2;
-            }
-        }
-    }
-    return numEdges;
-}
-								
+#include "kruskal.h"
 
 // Generate a random number from [0, 1]
-float randFloat()
-{
-	return (float) rand() / (float) RAND_MAX;
+float randFloat();
+
+// Generate graph
+int generate_graph0d(int n, edge** graph, int sample_size);
+int generate_graph234d(int n, int d, edge** graph,int sample_size);
+float distance(int d, float* p1, float* p2);
+int generate_graph(int n, int d, edge** graph,int sample_size) {
+    if (d == 0) {
+        return generate_graph0d(n,  graph,sample_size);
+    }
+    else {
+        return generate_graph234d(n, d, graph, sample_size);
+    }
 }
-	
+
+
+
+float randFloat()
+{    
+    return (float)rand() / (float)RAND_MAX;
+}
+
+void vertex_edges_prioritize(edge*** vmin_edges,const int& from,const int& to,const float& val,const int& m) {
+    
+    bool check = true;
+
+    if (val < vmin_edges[from][m - 1]->length) {        
+        vmin_edges[from][m - 1]->length = val;        
+        vmin_edges[from][m - 1]->p1 = from;
+        vmin_edges[from][m - 1]->p2 = to;        
+        sort_graph(m, vmin_edges[from]);
+    }
+    if (val < vmin_edges[to][m - 1]->length) {
+        vmin_edges[to][m - 1]->length = val;
+        vmin_edges[to][m - 1]->p1 = from;
+        vmin_edges[to][m - 1]->p2 = to;
+        sort_graph(m, vmin_edges[to]);
+    }
+}
+int generate_graph0d(int n, edge** graph, int sample_size) {
+   
+   /* float** edges;
+    edges = (float**)malloc(sizeof(float*) * n);
+    
+    for (i = 0; i < n; i++)
+        edges[i] = (float*)malloc(sizeof(float) * n);
+    int th_test = 2;*/
+    int numEdges = 0;
+    int i = 0, j = 0;    
+    int m=n-1<sample_size?n-1: sample_size;
+    edge*** vmin_edges = (edge ***) malloc(sizeof(edge**) * n);
+    for (i = 0; i < n; i++) {
+        vmin_edges[i] = (edge**)malloc(sizeof(edge*) * m);
+        for (j = 0; j < m; j++) {
+            vmin_edges[i][j] = (edge*)malloc(sizeof(edge));
+            vmin_edges[i][j]->length = 1.0;
+            vmin_edges[i][j]->p1 = -1;
+            vmin_edges[i][j]->p2 = -1;
+        }           
+    }
+    for (i = 1; i < n; i++) {
+        for (j = 0; j < i; j++) {
+            float val = randFloat();
+            vertex_edges_prioritize(vmin_edges, i, j, val, m);
+        }
+    }
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            graph[numEdges++] = vmin_edges[i][j];
+        }
+    }
+    return numEdges;
+}
+
+// Generate 234d graph
+int generate_graph234d(int n,int d, edge** graph, int sample_size) {
+    // Keep track of vertices. Each row is single vertex with dimensionality d
+    float** ver_dim;
+    ver_dim = (float**)malloc(sizeof(float*) * n);
+    int i, j, k;
+    for (i = 0; i < n; i++) {
+        ver_dim[i] = (float*)malloc(sizeof(float) * d);
+    }
+
+    // Initialize vertices
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            ver_dim[i][j] = randFloat();
+        }
+    }
+
+    int numEdges = 0;
+    int m = n - 1 < sample_size ? n - 1 : sample_size;
+    edge*** vmin_edges = (edge***)malloc(sizeof(edge**) * n);
+    for (i = 0; i < n; i++) {
+        vmin_edges[i] = (edge**)malloc(sizeof(edge*) * m);
+        for (j = 0; j < m; j++) {
+            vmin_edges[i][j] = (edge*)malloc(sizeof(edge));
+            vmin_edges[i][j]->length = 1.0;
+            vmin_edges[i][j]->p1 = -1;
+            vmin_edges[i][j]->p2 = -1;
+        }
+    }
+    for (i = 1; i < n; i++) {
+        for (j = 0; j < i; j++) {
+            float val = distance(d, ver_dim[i], ver_dim[j]);
+            vertex_edges_prioritize(vmin_edges, i, j, val,m);
+        }
+    }
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            graph[numEdges++] = vmin_edges[i][j];
+        }
+    }
+    delete vmin_edges;
+    for (int i = 0; i < n; i++) {
+        delete ver_dim[i];
+    }
+    delete ver_dim;
+    return numEdges;
+}
+
+
+
 // Calculate euclidean distance between two points p1 and p2
-float distance(int d, float p1[d], float p2[d])
+float distance(int d, float* p1, float* p2)
 {
     float sum = 0;
     for (int i = 0; i < d; i++)
@@ -141,5 +149,3 @@ float distance(int d, float p1[d], float p2[d])
     float distance = sqrt(sum);
     return distance;
 }
-   
-    
