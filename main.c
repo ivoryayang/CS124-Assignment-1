@@ -51,5 +51,4 @@ int main() {
     fs.close();
     system("pause");
     return 0;
-    //int num_edges=generate_graph234d(n, cap,4, graph);
 }
