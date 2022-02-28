@@ -12,8 +12,8 @@
 #include<fstream>
  //#include <sys/time.h>
 #include "graph.h"
-#include "Disjoint.h"
-#include "Kruskal.h"
+#include "disjoint.h"
+#include "kruskal.h"
 
 using namespace std;
 int main() {
@@ -24,7 +24,7 @@ int main() {
     int test_size = 5;
     int i = 0,j=0,x=0;
     float result[7];
-    ofstream fs("C:\\Users\\alpte\\Desktop\\output.txt");
+    ofstream fs("C:\\Users\\ivyxara\\Desktop\\output.txt");
     for (i = 0; i < 7; i++) {        
         for (x = 1; x <= 4; x++) {
             float mst_total = 0;
