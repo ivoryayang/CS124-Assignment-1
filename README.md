@@ -4,8 +4,10 @@ For the set-up for my project, I narrowed it down to considering complete, undir
 
 • Complete graphs on n vertices, where the weight of each edge is a real number chosen uniformly at
 random on [0, 1].
+
 • Complete graphs on n vertices, where the vertices are points chosen uniformly at random inside the
 unit square. 
+
 • Complete graphs on n vertices, where the vertices are points chosen uniformly at random inside the
 unit cube (3 dimensions) and hypercube (4 dimensions). 
 
