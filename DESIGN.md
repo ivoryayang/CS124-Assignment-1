@@ -1,8 +1,4 @@
-A “design document” for your project in the form of a Markdown file called DESIGN.md that discusses, technically, how you implemented your project and why you made the design decisions you did. Your design document should be at least several paragraphs in length. Whereas your documentation is meant to be a user’s manual, consider your design document your opportunity to give the staff a technical tour of your project underneath its hood.
-
-
-
-I chose to code my program in C because the goal of my project is to find MSTs in connected graphs, and as the dimensions of the graphs got larger, the time taken for the program to compile got longer. The program would probably have been simpler to complete in Python, but the estimated runtime for the larger graphs would have taken half a day to compile which is way too long. 
+I chose to code my program in C because the goal of my project is to find MSTs in connected graphs, and as the dimensions of the graphs become larger, the time taken for the program to compile become longer. This program would probably have been simpler to complete in Python, but the estimated runtime for the larger graphs would have taken half a day to compile which is way too long. 
 
 With regards to my choice of algorithm, I was debating between Kruskal’s algorithm and Prim’s algorithm, but I picked Kruskal’s because I thought the run-time of Prim’s would be much longer due to its repeated looping. Also, I did not think that my code could support the larger numbers due to the excess amount of space the matrices would have taken up. Kruskal’s algorithm proved much easier to implement, and I was able to cover very large values of n. Sorting the edges did take some time, but it was an agreeable trade-off.
 
