@@ -1,6 +1,5 @@
 /*
  * Made by Ivory A. Yang 2022
- * For Harvard CS124 Programming Assignment 1
  */
 
 #include <assert.h>
