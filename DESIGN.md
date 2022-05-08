@@ -1,4 +1,11 @@
-Explain design stuff
-
-
 A “design document” for your project in the form of a Markdown file called DESIGN.md that discusses, technically, how you implemented your project and why you made the design decisions you did. Your design document should be at least several paragraphs in length. Whereas your documentation is meant to be a user’s manual, consider your design document your opportunity to give the staff a technical tour of your project underneath its hood.
+
+
+
+I chose to code my program in C because the goal of my project is to find MSTs in connected graphs, and as the dimensions of the graphs got larger, the time taken for the program to compile got longer. The program would probably have been simpler to complete in Python, but the estimated runtime for the larger graphs would have taken half a day to compile which is way too long. 
+
+With regards to my choice of algorithm, I was debating between Kruskal’s algorithm and Prim’s algorithm, but I picked Kruskal’s because I thought the run-time of Prim’s would be much longer due to its repeated looping. Also, I did not think that my code could support the larger numbers due to the excess amount of space the matrices would have taken up. Kruskal’s algorithm proved much easier to implement, and I was able to cover very large values of n. Sorting the edges did take some time, but it was an agreeable trade-off.
+
+I played around with the number of sample edges in my code to see if I could make the runtime more efficient. I started off with n = 50, = 20 and then finally found that the optimum number of sample edges is 14. Two obvious observations are that runtime greatly increases as d increases, and runtime greatly increases as n increases, showing correlation. This makes sense as runtime should increase as the number and dimensions of edges increases. For smaller n values (128, 256 etc.), runtime was almost instantaneous. By n = 8192, the runtime increased to about 4 minutes, and for n = 262144, it took over an hour to run. It was still possible to find the MST for larger values of n, but the whole process took a very long time.
+
+The random number generator was pretty reliable in generating random numbers between the range [0, 1]. At one point I made a mistake in my code and seeded multiple times, and instead of getting a consistent n=1.2 for d = 0, I got very strange numbers, which alerted me to my error.
