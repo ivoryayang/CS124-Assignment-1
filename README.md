@@ -14,3 +14,6 @@ unit cube (3 dimensions) and hypercube (4 dimensions).
 My program finds the expected (average) weight of the MST, and how it grows as a function of n (vertices). d in this project refers to dimensions, as shown for the graph examples above. 
 
 For the coding portion, I needed to be able to generate appropriate random graphs, as well as implement an MST algorithm, which in my case I chose Kruskal's algorithm. Firstly, a random graph generator was constructed in graph.c to generate the appropriate random graphs, with the option to change the values of n (vertices) and d (dimensions) Then I used Kruskal’s algorithm in kruskal.c, before implementing a disjoint set data structure (see disjoint.c), which is needed to run Kruskal's algorithm. Finally, I produced the MST of a given graph in main.c .
+
+
+https://www.youtube.com/watch?v=UOVTDB_0XAk
