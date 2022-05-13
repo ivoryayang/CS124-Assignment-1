@@ -1,4 +1,4 @@
-#pragma once
+# pragma once
 
 void set_dsu(int* parent, int* rank, int n);
 int find(int a, int* parent);
