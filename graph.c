@@ -6,8 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include<ctime>
-//#include <sys/time.h>
+#include <sys/time.h>
 #include "graph.h"
 #include "kruskal.h"
 
